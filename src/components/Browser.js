@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
-import { Folder as FolderIcon } from '@material-ui/icons';
+import { Folder as FolderIcon, Attachment as FileIcon } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -9,6 +9,14 @@ const useStyles = makeStyles(() => ({
     marginTop: '100px',
   },
   folder: {
+    margin: '10px',
+    cursor: 'pointer',
+
+    '&:hover': {
+      color: '#3F51B5',
+    },
+  },
+  file: {
     margin: '10px',
   },
 }));
@@ -37,10 +45,12 @@ const Browser = ({ openedDirectory, onOpenFolder, currentPath }) => {
           </Fragment>
           <Fragment>
             {directory.type === 'file' && (
-            <h3>
-              <span>file</span>
-              {directory.name}
-            </h3>
+            <div className={classes.file}>
+              <FileIcon />
+              <h3>
+                {directory.name}
+              </h3>
+            </div>
             )}
           </Fragment>
         </Fragment>

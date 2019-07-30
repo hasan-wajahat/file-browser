@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from 'react';
 import Browser from 'components/Browser';
 import { directoryReducer } from 'reducer_hook_helpers/reducers';
-import { addFolder } from 'reducer_hook_helpers/actions';
+import { addFolder, addFile } from 'reducer_hook_helpers/actions';
 import {
   Container,
   makeStyles,
@@ -35,12 +35,22 @@ export default function App() {
       <Button
         variant="contained"
         onClick={() => dispatch(addFolder({
-          name: `test-${directories.length + 1}`,
+          name: `folder-${directories.length + 1}`,
           key: Date.now().toString(),
           path: currentPath.path,
         }))}
       >
         Add folder
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => dispatch(addFile({
+          name: `file-${directories.length + 1}`,
+          key: Date.now().toString(),
+          path: currentPath.path,
+        }))}
+      >
+        Add File
       </Button>
     </Container>
   );

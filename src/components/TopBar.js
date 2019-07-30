@@ -23,6 +23,9 @@ const TopBar = ({ currentPath, setCurrentPath }) => {
   const onBack = () => {
     const pathArray = currentPath.path.split('/');
     const nameArray = currentPath.name.split('/');
+
+    if (pathArray.length < 2) return;
+
     const parentPathArray = pathArray.slice(0, pathArray.length - 1);
     const parentNameArray = nameArray.slice(0, nameArray.length - 1);
     setCurrentPath({
