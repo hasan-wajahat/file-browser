@@ -1,13 +1,9 @@
 import React, { useReducer, useState } from 'react';
 import Browser from 'components/Browser';
 import { directoryReducer } from 'reducer_hook_helpers/reducers';
-import { addFolder, addFile } from 'reducer_hook_helpers/actions';
-import {
-  Container,
-  makeStyles,
-  Button,
-} from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 import TopBar from 'components/TopBar';
+import AddButtons from 'components/AddButtons';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,32 +22,20 @@ export default function App() {
 
   return (
     <Container className={classes.root}>
-      <TopBar currentPath={currentPath} setCurrentPath={setCurrentPath} />
+      <TopBar
+        currentPath={currentPath}
+        setCurrentPath={setCurrentPath}
+      />
       <Browser
         openedDirectory={openedDirectory}
         onOpenFolder={setCurrentPath}
         currentPath={currentPath}
       />
-      <Button
-        variant="contained"
-        onClick={() => dispatch(addFolder({
-          name: `folder-${directories.length + 1}`,
-          key: Date.now().toString(),
-          path: currentPath.path,
-        }))}
-      >
-        Add folder
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => dispatch(addFile({
-          name: `file-${directories.length + 1}`,
-          key: Date.now().toString(),
-          path: currentPath.path,
-        }))}
-      >
-        Add File
-      </Button>
+      <AddButtons
+        directories={directories}
+        dispatch={dispatch}
+        currentPath={currentPath}
+      />
     </Container>
   );
 }
