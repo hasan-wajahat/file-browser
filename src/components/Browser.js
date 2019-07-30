@@ -5,10 +5,10 @@ const Browser = ({ openedDirectory, onOpenFolder }) => (
   <div>
     <h3>Browser</h3>
     {openedDirectory.map(directory => (
-      <Fragment key={directory.key + directory.name}>
+      <Fragment key={directory.key}>
         <Fragment>
           {directory.type === 'folder' && (
-          <h3 onClick={() => onOpenFolder(`${directory.key}/${directory.name}`)}>
+          <h3 onClick={() => onOpenFolder(`${directory.key}/${directory.key}`)}>
             <span>Folder</span>
             {directory.name}
           </h3>

@@ -6,6 +6,7 @@ export function directoryReducer(state, action) {
         {
           type: 'folder',
           key: action.payload.key,
+          path: action.payload.path,
           name: action.payload.name,
         },
       ];
