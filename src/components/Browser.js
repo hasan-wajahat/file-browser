@@ -8,9 +8,12 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     marginTop: '100px',
   },
+  folder: {
+    margin: '10px',
+  },
 }));
 
-const Browser = ({ openedDirectory, onOpenFolder }) => {
+const Browser = ({ openedDirectory, onOpenFolder, currentPath }) => {
   const classes = useStyles();
   return (
     <div className={classes.container}>
@@ -18,7 +21,13 @@ const Browser = ({ openedDirectory, onOpenFolder }) => {
         <Fragment key={directory.key}>
           <Fragment>
             {directory.type === 'folder' && (
-            <div onClick={() => onOpenFolder(`${directory.path}/${directory.key}`)}>
+            <div
+              className={classes.folder}
+              onClick={() => onOpenFolder({
+                path: `${currentPath.path}/${directory.key}`,
+                name: `${currentPath.name}/${directory.name}`,
+              })}
+            >
               <FolderIcon />
               <h3>
                 {directory.name}
@@ -47,6 +56,10 @@ Browser.propTypes = {
     name: PropTypes.string,
   })).isRequired,
   onOpenFolder: PropTypes.func.isRequired,
+  currentPath: PropTypes.shape({
+    path: PropTypes.string,
+    name: PropTypes.string,
+  }).isRequired,
 };
 
 export default Browser;
