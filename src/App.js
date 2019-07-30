@@ -1,5 +1,4 @@
 import React, { useReducer, useState } from 'react';
-import './App.css';
 import Browser from 'components/Browser';
 import { directoryReducer } from 'reducer_hook_helpers/reducers';
 import { addFolder } from 'reducer_hook_helpers/actions';
