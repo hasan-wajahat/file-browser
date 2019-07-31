@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Menu, MenuItem } from '@material-ui/core';
 import { Folder as FolderIcon, Attachment as FileIcon } from '@material-ui/icons';
+import { deleteItem } from 'reducer_hook_helpers/actions';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -21,8 +22,27 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Browser = ({ openedDirectory, onOpenFolder, currentPath }) => {
+const Browser = ({
+  openedDirectory,
+  onOpenFolder,
+  currentPath,
+  dispatch,
+}) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
   const classes = useStyles();
+
+  const onRightClick = (event, item) => {
+    event.preventDefault();
+    setAnchorEl(event.currentTarget);
+    setSelectedItem(item);
+  };
+
+  const onDelete = () => {
+    dispatch(deleteItem({ item: selectedItem }));
+    setAnchorEl(null);
+  };
+
   return (
     <div className={classes.container}>
       {openedDirectory.map(directory => (
@@ -35,6 +55,7 @@ const Browser = ({ openedDirectory, onOpenFolder, currentPath }) => {
                 path: `${currentPath.path}/${directory.key}`,
                 name: `${currentPath.name}/${directory.name}`,
               })}
+              onContextMenu={event => onRightClick(event, directory)}
             >
               <FolderIcon />
               <h3>
@@ -45,7 +66,10 @@ const Browser = ({ openedDirectory, onOpenFolder, currentPath }) => {
           </Fragment>
           <Fragment>
             {directory.type === 'file' && (
-            <div className={classes.file}>
+            <div
+              className={classes.file}
+              onContextMenu={event => onRightClick(event, directory)}
+            >
               <FileIcon />
               <h3>
                 {directory.name}
@@ -53,6 +77,17 @@ const Browser = ({ openedDirectory, onOpenFolder, currentPath }) => {
             </div>
             )}
           </Fragment>
+          <Menu
+            anchorEl={anchorEl}
+            keepMounted
+            open={!!anchorEl}
+            onClose={() => setAnchorEl(null)}
+          >
+            <MenuItem onClick={onDelete}>
+              Delete
+            </MenuItem>
+            <MenuItem>Rename</MenuItem>
+          </Menu>
         </Fragment>
       ))}
     </div>
@@ -70,6 +105,7 @@ Browser.propTypes = {
     path: PropTypes.string,
     name: PropTypes.string,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default Browser;

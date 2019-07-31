@@ -18,6 +18,9 @@ export default function App() {
   const [currentPath, setCurrentPath] = useState({ name: 'root', path: 'root' });
   const classes = useStyles();
 
+  console.clear();
+  console.log(directories);
+
   const openedDirectory = directories.filter(file => file.path === currentPath.path) || [];
 
   return (
@@ -30,6 +33,7 @@ export default function App() {
         openedDirectory={openedDirectory}
         onOpenFolder={setCurrentPath}
         currentPath={currentPath}
+        dispatch={dispatch}
       />
       <AddButtons
         directories={directories}

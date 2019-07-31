@@ -1,4 +1,4 @@
-import { ADD_FOLDER, ADD_FILE } from './actionTypes';
+import { ADD_FOLDER, ADD_FILE, DELETE_ITEM } from './actionTypes';
 
 export function directoryReducer(state, action) {
   switch (action.type) {
@@ -22,6 +22,13 @@ export function directoryReducer(state, action) {
           name: action.payload.name,
         },
       ];
+    case DELETE_ITEM: {
+      const { payload: { item } } = action;
+      return state.filter(iterator => (
+        iterator.key !== item.key
+        && !iterator.path.includes(`${item.path}/${item.key}`) // removes sub folder and files
+      ));
+    }
     default: return state;
   }
 }
