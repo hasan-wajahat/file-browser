@@ -57,9 +57,11 @@ const Browser = ({
   const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
 
+  // opens context menu
   const onRightClick = (event, item) => {
     event.preventDefault();
     setAnchorEl(event.currentTarget);
+    // to be used for deleting and editing
     setSelectedItem(item);
   };
 

@@ -21,13 +21,20 @@ const TopBar = ({ currentPath, setCurrentPath }) => {
   const classes = useStyles();
 
   const onBack = () => {
+    /**
+     * We need to make changes both name and
+     * Key, because the path object uses both.
+     */
     const pathArray = currentPath.path.split('/');
     const nameArray = currentPath.name.split('/');
 
     if (pathArray.length < 2) return;
 
+    // removes last element
     const parentPathArray = pathArray.slice(0, pathArray.length - 1);
     const parentNameArray = nameArray.slice(0, nameArray.length - 1);
+
+    // combine into string
     setCurrentPath({
       name: parentNameArray.join('/'),
       path: parentPathArray.join('/'),

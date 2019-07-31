@@ -20,7 +20,9 @@ const AddButtons = ({ directories, dispatch, currentPath }) => {
         variant="contained"
         className={classes.button}
         onClick={() => dispatch(addFolder({
+          // create with increasing number
           name: `folder-${directories.length + 1}`,
+          // unique key generation
           key: Date.now().toString(),
           path: currentPath.path,
         }))}
@@ -31,7 +33,9 @@ const AddButtons = ({ directories, dispatch, currentPath }) => {
         variant="contained"
         className={classes.button}
         onClick={() => dispatch(addFile({
+          // create with increasing number
           name: `file-${directories.length + 1}`,
+          // unique key generation
           key: Date.now().toString(),
           path: currentPath.path,
         }))}

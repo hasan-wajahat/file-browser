@@ -15,6 +15,7 @@ const initialState = [];
 
 export default function App() {
   const [directories, dispatch] = useReducer(directoryReducer, initialState);
+  // saving key separate from name so we can change name without issue
   const [currentPath, setCurrentPath] = useState({ name: 'root', path: 'root' });
   const classes = useStyles();
 
