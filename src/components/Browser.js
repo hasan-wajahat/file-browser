@@ -1,8 +1,15 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, Menu, MenuItem } from '@material-ui/core';
+import {
+  makeStyles,
+  Menu,
+  MenuItem,
+  Modal,
+  TextField,
+  Button,
+} from '@material-ui/core';
 import { Folder as FolderIcon, Attachment as FileIcon } from '@material-ui/icons';
-import { deleteItem } from 'reducer_hook_helpers/actions';
+import { deleteItem, editItem } from 'reducer_hook_helpers/actions';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -20,6 +27,23 @@ const useStyles = makeStyles(() => ({
   file: {
     margin: '10px',
   },
+  modal: {
+    background: 'white',
+    top: '50%',
+    left: '50%',
+    position: 'absolute',
+    width: '400px',
+    height: '200px',
+    transform: 'translate(-50%, -50%)',
+    textAlign: 'center',
+  },
+  textInput: {
+    marginTop: '50px',
+  },
+  saveButton: {
+    display: 'block',
+    margin: '20px auto',
+  },
 }));
 
 const Browser = ({
@@ -29,7 +53,8 @@ const Browser = ({
   dispatch,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState({});
+  const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
 
   const onRightClick = (event, item) => {
@@ -39,8 +64,25 @@ const Browser = ({
   };
 
   const onDelete = () => {
-    dispatch(deleteItem({ item: selectedItem }));
+    dispatch(deleteItem(selectedItem));
     setAnchorEl(null);
+  };
+
+  const onOpenModal = () => {
+    setAnchorEl(null);
+    setModalOpen(true);
+  };
+
+  const onChange = (event) => {
+    setSelectedItem({
+      ...selectedItem,
+      name: event.target.value,
+    });
+  };
+
+  const onSave = () => {
+    dispatch(editItem(selectedItem));
+    setModalOpen(false);
   };
 
   return (
@@ -77,19 +119,44 @@ const Browser = ({
             </div>
             )}
           </Fragment>
-          <Menu
-            anchorEl={anchorEl}
-            keepMounted
-            open={!!anchorEl}
-            onClose={() => setAnchorEl(null)}
-          >
-            <MenuItem onClick={onDelete}>
-              Delete
-            </MenuItem>
-            <MenuItem>Rename</MenuItem>
-          </Menu>
         </Fragment>
       ))}
+      <Menu
+        anchorEl={anchorEl}
+        keepMounted
+        open={!!anchorEl}
+        onClose={() => setAnchorEl(null)}
+      >
+        <MenuItem onClick={onDelete}>
+          Delete
+        </MenuItem>
+        <MenuItem onClick={onOpenModal}>
+          Rename
+        </MenuItem>
+      </Menu>
+
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+      >
+        <div className={classes.modal}>
+          <TextField
+            value={selectedItem.name}
+            onChange={onChange}
+            label="name"
+            error={!selectedItem.name}
+            className={classes.textInput}
+          />
+          <Button
+            variant="contained"
+            onClick={onSave}
+            className={classes.saveButton}
+            disabled={!selectedItem.name}
+          >
+            Save
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };

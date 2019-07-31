@@ -18,9 +18,7 @@ export default function App() {
   const [currentPath, setCurrentPath] = useState({ name: 'root', path: 'root' });
   const classes = useStyles();
 
-  console.clear();
-  console.log(directories);
-
+  // memoize this
   const openedDirectory = directories.filter(file => file.path === currentPath.path) || [];
 
   return (

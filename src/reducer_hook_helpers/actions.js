@@ -1,9 +1,8 @@
 import {
   ADD_FOLDER,
   DELETE_ITEM,
-  EDIT_FOLDER,
+  EDIT_ITEM,
   ADD_FILE,
-  EDIT_FILE,
 } from './actionTypes';
 
 export const addFolder = payload => ({
@@ -16,17 +15,12 @@ export const deleteItem = payload => ({
   payload,
 });
 
-export const editFolder = payload => ({
-  type: EDIT_FOLDER,
+export const editItem = payload => ({
+  type: EDIT_ITEM,
   payload,
 });
 
 export const addFile = payload => ({
   type: ADD_FILE,
-  payload,
-});
-
-export const editFile = payload => ({
-  type: EDIT_FILE,
   payload,
 });
