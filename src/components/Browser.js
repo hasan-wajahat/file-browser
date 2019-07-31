@@ -121,6 +121,7 @@ const Browser = ({
           </Fragment>
         </Fragment>
       ))}
+
       <Menu
         anchorEl={anchorEl}
         keepMounted
